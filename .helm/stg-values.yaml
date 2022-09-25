@@ -1,0 +1,37 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+environment: stg
+
+image:
+  repository: registry.gitlab.com/tribal-credit/development/tribal-2/payment-hub/gilgamesh
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "release/v0.0.5"
+
+imagePullSecrets:
+  - name: registry-credentials
+nameOverride: ""
+fullnameOverride: "gilgamesh-svc"
+
+sealedSecrets:
+  dbDsn: 
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    memory: 750Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::497526479712:role/s3-access-role
